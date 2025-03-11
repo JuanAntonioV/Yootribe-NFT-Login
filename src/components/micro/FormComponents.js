@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { Field } from 'formik';
 import DatePicker from 'react-datepicker';
-import ReactChipInput from 'react-chip-input';
+// import ReactChipInput from 'react-chip-input';
+import { InputChips } from 'react-input-chips';
 
 import { PlusIcon, XIconLight } from '../../assets/icons';
 
-export const Input = ({ type, fieldName, label, required,value, errors = {}, ...rest }) => {
-
+export const Input = ({ type, fieldName, label, required, value, errors = {}, ...rest }) => {
   return (
     <div className={'input-wrapper'}>
       <label htmlFor={fieldName}>
@@ -16,7 +16,7 @@ export const Input = ({ type, fieldName, label, required,value, errors = {}, ...
 
       <Field type={'text'} id={fieldName} name={fieldName} {...rest} />
       <div className="with-counter">
-        {Object.keys(errors).length > 0 && value === "" && errors[fieldName]&& (
+        {Object.keys(errors).length > 0 && value === '' && errors[fieldName] && (
           <p className={'general-error'}> {errors[fieldName]}</p>
         )}
       </div>
@@ -24,16 +24,7 @@ export const Input = ({ type, fieldName, label, required,value, errors = {}, ...
   );
 };
 
-export const FileInput = ({
-  fieldName,
-  label,
-  required,
-  buttonText,
-  errors = {},
-  file,
-  helpText = null,
-  ...rest
-}) => {
+export const FileInput = ({ fieldName, label, required, buttonText, errors = {}, file, helpText = null, ...rest }) => {
   const fileInput = useRef(null);
   return (
     <div className={'input-wrapper'}>
@@ -52,20 +43,13 @@ export const FileInput = ({
         <PlusIcon />
         {file ? file.name : rest.edit ? rest.edit : buttonText}
       </button>
-      <input
-        ref={fileInput}
-        hidden
-        className={'input-file'}
-        type={'file'}
-        id={fieldName}
-        name={fieldName}
-        {...rest}
-      />
+      <input ref={fileInput} hidden className={'input-file'} type={'file'} id={fieldName} name={fieldName} {...rest} />
 
-      {helpText && (
-        <small style={{width:"100%"}}>{helpText}</small>
-      )}
-      {file ? '' : Object.keys(errors).length > 0 && errors[fieldName] && <p className={'general-error'}> {errors[fieldName]}</p>}
+      {helpText && <small style={{ width: '100%' }}>{helpText}</small>}
+      {file
+        ? ''
+        : Object.keys(errors).length > 0 &&
+          errors[fieldName] && <p className={'general-error'}> {errors[fieldName]}</p>}
     </div>
   );
 };
@@ -78,7 +62,7 @@ export const TextField = ({ fieldName, label, required, value, errors = {}, ...r
         {required && <span className="required-indicator">*</span>}
       </label>
       <Field as={'textarea'} id={fieldName} name={fieldName} {...rest} />
-      {Object.keys(errors).length > 0 && value=== "" && errors[fieldName] && (
+      {Object.keys(errors).length > 0 && value === '' && errors[fieldName] && (
         <p className={'general-error'}> {errors[fieldName]}</p>
       )}
     </div>
@@ -97,22 +81,41 @@ export const Checkbox = ({ fieldName, label, required, ...rest }) => {
   );
 };
 
-
-export const Dropdown = ({ name, label, options,fieldName, required, setOption, errors = {},  value, defaultValue, property, ...rest }) => {
+export const Dropdown = ({
+  name,
+  label,
+  options,
+  fieldName,
+  required,
+  setOption,
+  errors = {},
+  value,
+  defaultValue,
+  property,
+  ...rest
+}) => {
   return (
     <div className={'dropdown'}>
       <input type={'checkbox'} className={'dropdown__switch'} id={`filter-switch-${name}`} hidden />
       <label htmlFor={`filter-switch-${name}`} className={'dropdown__options-filter'}>
-        <div>{label}{required && <span className="required-indicator">*</span>}</div>
+        <div>
+          {label}
+          {required && <span className="required-indicator">*</span>}
+        </div>
         <ul className={'dropdown__filter'} role={'listbox'} tabIndex={'-1'}>
           <li className={'dropdown__filter-selected'}>
             {value === null ? defaultValue : ''}
-            {value ? ((property) ? options.filter((_option) => _option._id === value)[0][property] : options.filter((_option) => _option === value)[0]) : label}
+            {value
+              ? property
+                ? options.filter((_option) => _option._id === value)[0][property]
+                : options.filter((_option) => _option === value)[0]
+              : label}
             {value && (
               <button
                 onClick={() => {
                   setOption(null);
-                }}>
+                }}
+              >
                 {<XIconLight />}
               </button>
             )}
@@ -121,7 +124,7 @@ export const Dropdown = ({ name, label, options,fieldName, required, setOption, 
             <ul className={'dropdown__select'}>
               {options && options.length ? (
                 options.map((item, index) => {
-                  const id = (property) ? item._id : item
+                  const id = property ? item._id : item;
                   if (id !== value) {
                     return (
                       <li
@@ -131,8 +134,9 @@ export const Dropdown = ({ name, label, options,fieldName, required, setOption, 
                         role={'option'}
                         onClick={() => {
                           setOption(id);
-                        }}>
-                        {(property) ? item[property] : item}
+                        }}
+                      >
+                        {property ? item[property] : item}
                       </li>
                     );
                   }
@@ -147,20 +151,20 @@ export const Dropdown = ({ name, label, options,fieldName, required, setOption, 
           </li>
         </ul>
       </label>
-      {Object.keys(errors).length > 0 && value === "" && errors[fieldName] && (
+      {Object.keys(errors).length > 0 && value === '' && errors[fieldName] && (
         <p className={'general-error'}> {errors[fieldName]}</p>
       )}
     </div>
   );
 };
 
-export const CampaignDropdown = ({ label, options, required, setOption, value, ...rest }) => { 
+export const CampaignDropdown = ({ label, options, required, setOption, value, ...rest }) => {
   const [selectedOption, setSelectedOption] = useState(value);
   return (
     <div className={'dropdown'}>
       <input type={'checkbox'} className={'dropdown__switch'} id={'filter-switch'} hidden />
       <label htmlFor={'filter-switch'} className={'dropdown__options-filter'}>
-        {rest.labelActive?label:''}
+        {rest.labelActive ? label : ''}
         <ul className={'dropdown__filter'} role={'listbox'} tabIndex={'-1'}>
           <li className={'dropdown__filter-selected'}>
             {selectedOption ? options?.[0]?.name : label}
@@ -169,7 +173,8 @@ export const CampaignDropdown = ({ label, options, required, setOption, value, .
                 onClick={() => {
                   setOption('');
                   setSelectedOption('');
-                }}>
+                }}
+              >
                 {<XIconLight />}
               </button>
             )}
@@ -187,7 +192,8 @@ export const CampaignDropdown = ({ label, options, required, setOption, value, .
                       onClick={() => {
                         setOption(item._id);
                         setSelectedOption(item.name);
-                      }}>
+                      }}
+                    >
                       {item.name}
                     </li>
                   );
@@ -202,12 +208,12 @@ export const CampaignDropdown = ({ label, options, required, setOption, value, .
   );
 };
 
-export const DragNDrop = ({ handleChange, fileTypes, file }) => { };
+export const DragNDrop = ({ handleChange, fileTypes, file }) => {};
 
 export const KeywordsInput = ({ setState, state }) => {
   const addChip = (val) => {
     if (val) {
-      setState((prevState) => [...prevState, val.replaceAll(/[^a-z]/ig, '')]);
+      setState((prevState) => [...prevState, val.replaceAll(/[^a-z]/gi, '')]);
     }
   };
 
@@ -219,7 +225,7 @@ export const KeywordsInput = ({ setState, state }) => {
   // TODO autocomplete dropdown using listKeywords()
 
   return (
-    <ReactChipInput
+    <InputChips
       classes={'chip-input-main keywords-input'}
       chips={state}
       onSubmit={addChip}

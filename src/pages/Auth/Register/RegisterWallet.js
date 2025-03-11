@@ -3,15 +3,10 @@ import { useDispatch } from 'react-redux';
 import { registerWallet } from '../../../api';
 import { IntlTelInputByIp } from '../../../components/IntlTelInputByIp';
 import { login } from '../../../store/authSlice';
-import { Web3Button } from '@web3modal/react'
-
-
-
-
+import { Web3Button } from '@web3modal/react';
 
 import '../bootstrap.min.css';
 import '../style.css';
-
 
 import LogoYoutribe from '../../../assets/img/img_footer/logo-yootribe.png';
 import LogoFooterYoutribe from '../../../assets/img/img_footer/logo-footer-yootribe.jpg';
@@ -48,12 +43,11 @@ export const RegisterWallet = () => {
 
   const handleAvatarUpload = (e) => {
     const extension = e.currentTarget.files[0].name.split('.').pop();
-    if(extension === "png" || extension === "jpeg" || extension === "jpg"){
+    if (extension === 'png' || extension === 'jpeg' || extension === 'jpg') {
       setAvatarError('');
       setRegisterData({ ...registerData, avatar: e.target.files[0] });
-    }
-    else{
-      setAvatarError('Uploading this file is not allowed')
+    } else {
+      setAvatarError('Uploading this file is not allowed');
     }
   };
 
@@ -87,10 +81,8 @@ export const RegisterWallet = () => {
               <div className="col-md-8">
                 <div className="register-sec user-reg">
                   <h3>Sign up with for NFT</h3>
-                  <Web3Button/>
-                  <p>
-                    Take part in this adventure on a collaborative journey
-                  </p>
+                  <Web3Button />
+                  <p>Take part in this adventure on a collaborative journey</p>
                   <form className="form registration-form" onSubmit={onSubmit}>
                     {formError && <div className="col-12 errors">{formError}</div>}
                     <div className="row">
@@ -178,8 +170,12 @@ export const RegisterWallet = () => {
                             placeholder="Password"
                             required
                             pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
-                            onInvalid={e => e.target.setCustomValidity('Password must contain at least one number and one uppercase and lowercase letter and special character, and at least 8 or more characters')}
-                            onInput={e => e.target.setCustomValidity('')}
+                            onInvalid={(e) =>
+                              e.target.setCustomValidity(
+                                'Password must contain at least one number and one uppercase and lowercase letter and special character, and at least 8 or more characters'
+                              )
+                            }
+                            onInput={(e) => e.target.setCustomValidity('')}
                             onChange={handleChange}
                           />
                           <span
@@ -197,8 +193,8 @@ export const RegisterWallet = () => {
                             className="form-control"
                             placeholder="Confirm Password"
                             required
-                            onInvalid={e => e.target.setCustomValidity('Passwords must match!')}
-                            onInput={e => e.target.setCustomValidity('')}
+                            onInvalid={(e) => e.target.setCustomValidity('Passwords must match!')}
+                            onInput={(e) => e.target.setCustomValidity('')}
                             pattern="^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
                             onChange={handleChange}
                           />
@@ -247,13 +243,11 @@ export const RegisterWallet = () => {
                         >
                           Add avatar
                         </button>
-                        <br/>
+                        <br />
                         <button
                           type="button"
                           id="avatar-input-button"
-                          onClick={(e) => {
-
-                          }}
+                          onClick={(e) => {}}
                           style={{
                             margin: '0',
                             width: '100%',
@@ -264,7 +258,6 @@ export const RegisterWallet = () => {
                         >
                           Connect Wallet
                         </button>
-                       
 
                         {avatarError ? <p className={'error'}>{avatarError}</p> : null}
                       </div>
@@ -274,24 +267,37 @@ export const RegisterWallet = () => {
                     </div>
 
                     <div className="col-12 mb-0">
-                      <div style={{ paddingLeft: '0.5rem', display:'flex' }} className="custom-control custom-checkbox">
+                      <div
+                        style={{ paddingLeft: '0.5rem', display: 'flex' }}
+                        className="custom-control custom-checkbox"
+                      >
                         <input
                           type="checkbox"
                           className="custom-control-input"
                           id="terms_conditions"
                           name="terms_conditions"
                           required
-                          onInvalid={e => e.target.setCustomValidity('Please confirm that you are 18 years or older!')}
-                          onInput={e => e.target.setCustomValidity('')}
-                          style={{ marginTop:'-11px',marginRight:'10px' }}
+                          onInvalid={(e) =>
+                            e.target.setCustomValidity('Please confirm that you are 18 years or older!')
+                          }
+                          onInput={(e) => e.target.setCustomValidity('')}
+                          style={{ marginTop: '-11px', marginRight: '10px' }}
                         />
                         <label className="label custom-control-label form-check-label" htmlFor="terms_conditions">
                           I certify that I am 18 years of age or older, I agree to the
-                          <a style={{ color: '#ea8f0c',marginLeft:'3px' }} target="_blank" href="https://yootribe.io/terms">
+                          <a
+                            style={{ color: '#ea8f0c', marginLeft: '3px' }}
+                            target="_blank"
+                            href="https://yootribe.io/terms"
+                          >
                             Terms
                           </a>
                           , and I have read the
-                          <a style={{ color: '#ea8f0c',marginLeft:'3px' }} target="_blank" href="https://yootribe.io/privacy">
+                          <a
+                            style={{ color: '#ea8f0c', marginLeft: '3px' }}
+                            target="_blank"
+                            href="https://yootribe.io/privacy"
+                          >
                             Privacy Policy
                           </a>
                           .
@@ -308,46 +314,48 @@ export const RegisterWallet = () => {
               </div>
             </div>
           </div>
-          
         </div>
         {/* <footer style={{ display: 'flex', alignItems: 'center', color: "grey", fontWeight: 600, height: '40px' }}  >
         <span>&copy; 2022 Yootribe, SAS, All Rights Reserved</span>
       </footer> */}
 
-
-         {/* footer */}
+        {/* footer */}
         <div class="footer-login">
           <div class="bottomFooter">
             <div class="container-footer">
               <ul class="list">
-
-
                 <li class="item first">
-                  <a class="navbar-brand" href="/"><img src={LogoYoutribe} alt="" /></a>
+                  <a class="navbar-brand" href="/">
+                    <img src={LogoYoutribe} alt="" />
+                  </a>
                   <p>We are blockchain brand ready</p>
                 </li>
                 <li class="item menu">
-                  <a href="https://yootribe.io/terms" class="link">Terms</a>
-                  <a href="https://yootribe.io/legal" class="link">Legal</a>
-                  <a href="https://yootribe.io/privacy" class="link">Privacy Policy</a>
-                  <a href="https://yootribe.io/antiabuse" class="link">Anti-abuse policy</a>
+                  <a href="https://yootribe.io/terms" class="link">
+                    Terms
+                  </a>
+                  <a href="https://yootribe.io/legal" class="link">
+                    Legal
+                  </a>
+                  <a href="https://yootribe.io/privacy" class="link">
+                    Privacy Policy
+                  </a>
+                  <a href="https://yootribe.io/antiabuse" class="link">
+                    Anti-abuse policy
+                  </a>
                 </li>
 
                 <li class="item last">
                   <img src={LogoFooterYoutribe} alt="" />
                 </li>
-
               </ul>
-
             </div>
           </div>
           <div class="sub-footer">
-            <p class="copyrights">
-              © 2022 Yootribe, SAS, All Rights Reserved
-            </p>
+            <p class="copyrights">© 2022 Yootribe, SAS, All Rights Reserved</p>
           </div>
         </div>
-         {/* end footer */}
+        {/* end footer */}
       </main>
     </div>
   );

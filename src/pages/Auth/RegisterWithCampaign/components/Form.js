@@ -16,9 +16,9 @@ export const RegisterWithCampaignForm = ({ campaign, onSubmit }) => {
   const [fields, setFields] = useState([]);
   const [connectedUser, setConnectedUser] = useState({});
   const [phoneBackup, setPhoneBackup] = useState('');
-  const [errorPhoneNumber,setErrorPhoneNumber] = useState('');
-  const [checkCertify,setCheckCertify] = useState(false);
-  const [errorCheck,setErrorCheck] = useState('');
+  const [errorPhoneNumber, setErrorPhoneNumber] = useState('');
+  const [checkCertify, setCheckCertify] = useState(false);
+  const [errorCheck, setErrorCheck] = useState('');
   const [fieldToAdd, setFieldToAdd] = useState();
 
   if (fields.length < 1) {
@@ -97,32 +97,31 @@ export const RegisterWithCampaignForm = ({ campaign, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (campaign?.preview) {
       console.error('Campaign is not live yet');
       return;
     }
-    
+
     for (let [property, value] of Object.entries(connectedUser)) {
       registerData[property] = value;
     }
-    
-    if(!registerData.email){
-      setFormError({ ...formError, ['email']: 'Field required' });
-    }else if(! registerData.first_name){
-      setFormError({ ...formError, ['first_name']: 'Field required' });
 
-    }else if (!registerData.last_name){
+    if (!registerData.email) {
+      setFormError({ ...formError, ['email']: 'Field required' });
+    } else if (!registerData.first_name) {
+      setFormError({ ...formError, ['first_name']: 'Field required' });
+    } else if (!registerData.last_name) {
       setFormError({ ...formError, ['last_name']: 'Field required' });
-    }else if (!registerData.password) {
+    } else if (!registerData.password) {
       setFormError({ ...formError, ['password']: 'Field required' });
-    }else if (!registerData.username) {
+    } else if (!registerData.username) {
       setFormError({ ...formError, ['username']: 'Field required' });
-    }else if (!registerData.phone_number){
+    } else if (!registerData.phone_number) {
       setErrorPhoneNumber('Field required.');
     } else if (checkCertify === false) {
       setErrorCheck('Check field required');
-    } else{
+    } else {
       setFormError({ ...formError, ['email']: '' });
       setFormError({ ...formError, ['first_name']: '' });
       setFormError({ ...formError, ['last_name']: '' });
@@ -213,70 +212,81 @@ export const RegisterWithCampaignForm = ({ campaign, onSubmit }) => {
   return (
     <form className="form" onSubmit={handleSubmit}>
       <div className="row">
-        {fields.sort((a, b) => a.order - b.order).map((field, iField) => {
-          switch (field.type) {
-            case 'phone':
-              return (
-                <div className="form-group col-md-6" key={field._id + iField}>
-                  <label htmlFor={field._id}>
-                    {field.question} {field.required && '*'}
-                  </label>
-
-                  <IntlTelInputByIp
-                    style={{ paddingRight: 0 }}
-                    onPhoneNumberChange={(isValid, number) =>
-                      handleChange(
-                        {
-                          target: {
-                            name: getFormName(field),
-                            value: number,
-                            type: 'phone',
-                          },
-                        },
-                        field.categoryLabel !== 'forceRequired'
-                      )
-                    }
-                    formatOnInit
-                    placeholder=''
-                    required
-                    pattern="^-?[0-9]\d*\.?\d*$"
-                    value={registerData.phone_number !== '' ? registerData.phone_number : ''}
-                  />
-                  {errorPhoneNumber !== "" ? <div className="error error-input-number">{errorPhoneNumber}</div>:''}
-                </div>
-              );
-            case 'select':
-              return (
-                <div className="form-group col-md-6" key={field._id + iField}>
-                  <div className={'dropdown'}>
-                    <input type={'checkbox'} name={getFormName(field)} className={'dropdown__switch'} id={`filter-switch-${field._id}`} hidden />
-                    <label htmlFor={`filter-switch-${field._id}`} className={'dropdown__options-filter'}>
-                      <div>{field.question} {field.required && '*'}</div>
-                      <ul className={'dropdown__filter w-100 large'} role={'listbox'} tabIndex={'-1'}>
-                        <li className={'dropdown__filter-selected'}>
-                          {fieldToAdd ? fieldToAdd : 'Please select an answer'}
-                        </li>
-                        <li>
-                          <ul className={'dropdown__select'}>
-                            {field.choices.map((option) => (
-                              <li
-                                key={field._id + '_' + option}
-                                className={'dropdown__select-option'}
-                                aria-selected={'false'}
-                                role={'option'}
-                                onClick={(e) => {
-                                  setFieldToAdd(option);
-                                  handleChange(e, field.categoryLabel !== 'forceRequired')
-                                }}>
-                                {option}
-                              </li>
-                              ))}
-                          </ul>
-                        </li>
-                      </ul>
+        {fields
+          .sort((a, b) => a.order - b.order)
+          .map((field, iField) => {
+            switch (field.type) {
+              case 'phone':
+                return (
+                  <div className="form-group col-md-6" key={field._id + iField}>
+                    <label htmlFor={field._id}>
+                      {field.question} {field.required && '*'}
                     </label>
+
+                    <IntlTelInputByIp
+                      style={{ paddingRight: 0 }}
+                      onPhoneNumberChange={(isValid, number) =>
+                        handleChange(
+                          {
+                            target: {
+                              name: getFormName(field),
+                              value: number,
+                              type: 'phone',
+                            },
+                          },
+                          field.categoryLabel !== 'forceRequired'
+                        )
+                      }
+                      formatOnInit
+                      placeholder=""
+                      required
+                      pattern="^-?[0-9]\d*\.?\d*$"
+                      value={registerData.phone_number !== '' ? registerData.phone_number : ''}
+                    />
+                    {errorPhoneNumber !== '' ? <div className="error error-input-number">{errorPhoneNumber}</div> : ''}
                   </div>
-                  {/*
+                );
+              case 'select':
+                return (
+                  <div className="form-group col-md-6" key={field._id + iField}>
+                    <div className={'dropdown'}>
+                      <input
+                        type={'checkbox'}
+                        name={getFormName(field)}
+                        className={'dropdown__switch'}
+                        id={`filter-switch-${field._id}`}
+                        hidden
+                      />
+                      <label htmlFor={`filter-switch-${field._id}`} className={'dropdown__options-filter'}>
+                        <div>
+                          {field.question} {field.required && '*'}
+                        </div>
+                        <ul className={'dropdown__filter w-100 large'} role={'listbox'} tabIndex={'-1'}>
+                          <li className={'dropdown__filter-selected'}>
+                            {fieldToAdd ? fieldToAdd : 'Please select an answer'}
+                          </li>
+                          <li>
+                            <ul className={'dropdown__select'}>
+                              {field.choices.map((option) => (
+                                <li
+                                  key={field._id + '_' + option}
+                                  className={'dropdown__select-option'}
+                                  aria-selected={'false'}
+                                  role={'option'}
+                                  onClick={(e) => {
+                                    setFieldToAdd(option);
+                                    handleChange(e, field.categoryLabel !== 'forceRequired');
+                                  }}
+                                >
+                                  {option}
+                                </li>
+                              ))}
+                            </ul>
+                          </li>
+                        </ul>
+                      </label>
+                    </div>
+                    {/*
                   <label htmlFor={field._id}>
                     {field.question} {field.required && '*'}
                   </label>
@@ -302,52 +312,54 @@ export const RegisterWithCampaignForm = ({ campaign, onSubmit }) => {
                     ))}
                   </select>
                   */}
-                </div>
-              );
-            default:
-              return (
-                <div className="form-group col-md-6" key={field._id + iField}>
-                  <label htmlFor={field._id}>
-                    {field.question} {field.required && '*'}
-                  </label>
-                  <input
-                    min={field.question == "How many children do you have ?" ? 0 : null}
-                    id={field._id}
-                    name={getFormName(field)}
-                    type={field.type}
-                    className="form-control"
-                    // required={field.required}
-                    onChange={(e) => handleChange(e, field.categoryLabel !== 'forceRequired')}
-                    onBlur={async (e) => {
-                      if (campaign?.preview) {
-                        return;
-                      }
-
-                      validateData(e.target.name, e.target.value, e.target.type);
-
-                      if (e.target.name === 'email') {
-                        const { lead, inCampaign } = await validateUserByEmail(e.target.value, campaign._id);
-
-                        if (lead && !inCampaign) {
-                          handleOpen();
-                          handleLoginModal();
-                        } else if (lead && inCampaign) {
-                          setFormError({
-                            ...formError,
-                            email: 'The campaign has already been assigned to this user',
-                          });
+                  </div>
+                );
+              default:
+                return (
+                  <div className="form-group col-md-6" key={field._id + iField}>
+                    <label htmlFor={field._id}>
+                      {field.question} {field.required && '*'}
+                    </label>
+                    <input
+                      min={field.question == 'How many children do you have ?' ? 0 : null}
+                      id={field._id}
+                      name={getFormName(field)}
+                      type={field.type}
+                      className="form-control"
+                      // required={field.required}
+                      onChange={(e) => handleChange(e, field.categoryLabel !== 'forceRequired')}
+                      onBlur={async (e) => {
+                        if (campaign?.preview) {
+                          return;
                         }
-                      }
-                    }}
-                  />
 
-                  {formError && formError[getFormName(field)] && 
-                     formError[getFormName(field)] !== "" ? <div className="error error-input-number">{formError[getFormName(field)]}</div> : ''
-                  }
-                </div>
-              );
-          }
-        })}
+                        validateData(e.target.name, e.target.value, e.target.type);
+
+                        if (e.target.name === 'email') {
+                          const { lead, inCampaign } = await validateUserByEmail(e.target.value, campaign._id);
+
+                          if (lead && !inCampaign) {
+                            handleOpen();
+                            handleLoginModal();
+                          } else if (lead && inCampaign) {
+                            setFormError({
+                              ...formError,
+                              email: 'The campaign has already been assigned to this user',
+                            });
+                          }
+                        }
+                      }}
+                    />
+
+                    {formError && formError[getFormName(field)] && formError[getFormName(field)] !== '' ? (
+                      <div className="error error-input-number">{formError[getFormName(field)]}</div>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                );
+            }
+          })}
       </div>
 
       <div className="form-input-checkbox">
@@ -359,7 +371,7 @@ export const RegisterWithCampaignForm = ({ campaign, onSubmit }) => {
             name="accept"
             className="input-control me-2"
             checked={checkCertify}
-            onChange={()=>setCheckCertify(!checkCertify)}
+            onChange={() => setCheckCertify(!checkCertify)}
           />
           <span>
             I certify that I am 18 years of age or older, I agree to the{' '}
@@ -374,11 +386,11 @@ export const RegisterWithCampaignForm = ({ campaign, onSubmit }) => {
             .
           </span>
         </label>
-        {errorCheck !== "" ? <div className="error error-input-number">{errorCheck}</div> : ''}
+        {errorCheck !== '' ? <div className="error error-input-number">{errorCheck}</div> : ''}
       </div>
-       <button type="submit" className="btn btn-submit" disabled={campaign?.preview}>
+      <button type="submit" className="btn btn-submit" disabled={campaign?.preview}>
         I want my NFT !
-      </button> 
+      </button>
     </form>
   );
 };

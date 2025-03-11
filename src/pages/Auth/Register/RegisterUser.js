@@ -2,7 +2,8 @@ import React from 'react';
 import { registerUser, validateUserCompany } from '../../../api';
 import { IntlTelInputByIp } from '../../../components/IntlTelInputByIp';
 
-import 'react-intl-tel-input/dist/main.css';
+// import 'react-intl-tel-input/dist/main.css';
+import 'intl-tel-input/build/css/intlTelInput.css';
 import '../bootstrap.min.css';
 import '../style.css';
 
@@ -87,9 +88,7 @@ export const RegisterUser = () => {
               <div className="col-md-8">
                 <div className="register-sec">
                   <h3>Sign up with for NFT</h3>
-                  <p>
-                    Revolutionize your lead generation strategy with NFT and Web3 Wallet
-                  </p>
+                  <p>Revolutionize your lead generation strategy with NFT and Web3 Wallet</p>
                   <form className="form registration-form" onSubmit={onSubmit}>
                     {formError && <div className="col-12 errors">{formError}</div>}
                     <div className="row">
@@ -282,34 +281,37 @@ export const RegisterUser = () => {
           <div className="bottomFooter">
             <div className="container-footer">
               <ul className="list">
-
-
                 <li className="item first">
-                  <a className="navbar-brand" href="/"><img src={LogoYoutribe} alt="" /></a>
+                  <a className="navbar-brand" href="/">
+                    <img src={LogoYoutribe} alt="" />
+                  </a>
                   <p>We are blockchain brand ready</p>
                 </li>
                 <li className="item menu">
-                  <a href="https://yootribe.io/terms" className="link">Terms</a>
-                  <a href="https://yootribe.io/legal" className="link">Legal</a>
-                  <a href="https://yootribe.io/privacy" className="link">Privacy Policy</a>
-                  <a href="https://yootribe.io/antiabuse" className="link">Anti-abuse policy</a>
+                  <a href="https://yootribe.io/terms" className="link">
+                    Terms
+                  </a>
+                  <a href="https://yootribe.io/legal" className="link">
+                    Legal
+                  </a>
+                  <a href="https://yootribe.io/privacy" className="link">
+                    Privacy Policy
+                  </a>
+                  <a href="https://yootribe.io/antiabuse" className="link">
+                    Anti-abuse policy
+                  </a>
                 </li>
 
                 <li className="item last">
                   <img src={LogoFooterYoutribe} alt="" />
                 </li>
-
               </ul>
-
             </div>
           </div>
           <div className="sub-footer">
-            <p className="copyrights">
-              © 2022 Yootribe, SAS, All Rights Reserved
-            </p>
+            <p className="copyrights">© 2022 Yootribe, SAS, All Rights Reserved</p>
           </div>
         </div>
-
       </main>
     </div>
   );
